@@ -1,0 +1,14 @@
+/.idea/
+/target/classes/com/healthapp/healthapp/configuration/AppConstants.class
+/target/classes/com/healthapp/healthapp/HealthappApplication.class
+/target/classes/com/healthapp/healthapp/entity/Role.class
+/target/classes/com/healthapp/healthapp/repository/RoleRepository.class
+/target/classes/com/healthapp/healthapp/configuration/SecurityConfiguration.class
+/target/classes/com/healthapp/healthapp/entity/Symptom.class
+/target/classes/com/healthapp/healthapp/entity/User.class
+/target/classes/com/healthapp/healthapp/controller/UserController.class
+/target/classes/com/healthapp/healthapp/service/UserDetailsServiceImpl.class
+/target/classes/com/healthapp/healthapp/repository/UserRepository.class
+/target/classes/com/healthapp/healthapp/service/UserService.class
+/target/classes/com/healthapp/healthapp/repository/SymptomRepository.class
+/target/classes/com/healthapp/healthapp/controller/SymptomController.class
