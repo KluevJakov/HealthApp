@@ -1,0 +1,21 @@
+package com.healthapp.healthapp.controller;
+
+import com.healthapp.healthapp.entity.dto.PersonalCouncilChat;
+import com.healthapp.healthapp.service.ChatService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:8080"})
+@RestController
+@RequestMapping("/api/chat")
+public class ChatController {
+
+    @Autowired
+    private ChatService chatService;
+
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody PersonalCouncilChat request) {
+        return chatService.create(request);
+    }
+}

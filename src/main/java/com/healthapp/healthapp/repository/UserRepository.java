@@ -14,4 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "select * from users inner join users_roles on users.id = users_roles.user_id where users_roles.roles_id = 2", nativeQuery = true)
     List<User> findDoctors();
+
+    @Query(value = "select * from users inner join users_roles on users.id = users_roles.user_id where users_roles.roles_id = 2 limit 1", nativeQuery = true)
+    User findFreeDoctor();
 }
