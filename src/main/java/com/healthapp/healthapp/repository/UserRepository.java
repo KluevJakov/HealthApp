@@ -12,9 +12,12 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 
-    @Query(value = "select * from users inner join users_roles on users.id = users_roles.user_id where users_roles.roles_id = 2", nativeQuery = true)
-    List<User> findDoctors();
-
     @Query(value = "select * from users inner join users_roles on users.id = users_roles.user_id where users_roles.roles_id = 2 limit 1", nativeQuery = true)
     User findFreeDoctor();
+
+    @Query(value = "select * from users inner join users_roles on users.id = users_roles.user_id where users_roles.roles_id = 1", nativeQuery = true)
+    List<User> findUsers();
+
+    @Query(value = "select * from users inner join users_roles on users.id = users_roles.user_id where users_roles.roles_id = 2", nativeQuery = true)
+    List<User> findDoctors();
 }

@@ -29,8 +29,13 @@ public class UserController {
     }
 
     @GetMapping("/doctors")
-    public ResponseEntity<?> getDoctors() {
-        return userService.getDoctors();
+    public ResponseEntity<?> getDoctors(@RequestParam(required = false) String fts) {
+        return userService.getDoctors(fts);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<?> getUsers(@RequestParam(required = false) String fts) {
+        return userService.getUsers(fts);
     }
 
     @GetMapping

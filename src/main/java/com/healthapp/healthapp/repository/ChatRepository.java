@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface ChatRepository extends JpaRepository<Chat, Long> {
 
-    @Query(value = "select * from chats inner join chats_members on chats.id = chats_members.chat_id where chats_members.members_id = ?1", nativeQuery = true)
+    @Query(value = "select distinct * from chats inner join chats_members on chats.id = chats_members.chat_id where chats_members.members_id = ?1", nativeQuery = true)
     List<Chat> findByMember(Long id);
 }

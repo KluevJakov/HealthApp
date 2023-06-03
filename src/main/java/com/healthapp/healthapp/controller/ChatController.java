@@ -35,4 +35,9 @@ public class ChatController {
     public ResponseEntity<?> chat(@PathVariable Long id) {
         return ResponseEntity.ok(chatService.findById(id));
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> delete(@RequestParam Long id) {
+        return chatService.deleteById(id);
+    }
 }

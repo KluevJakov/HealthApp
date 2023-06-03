@@ -73,4 +73,9 @@ public class ChatService {
                 .collect(Collectors.toList()));
         return chat;
     }
+
+    public ResponseEntity<?> deleteById(Long id) {
+        chatRepository.deleteById(id);
+        return ResponseEntity.ok("");
+    }
 }

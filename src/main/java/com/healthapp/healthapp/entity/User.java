@@ -18,7 +18,7 @@ import java.util.Set;
 @EqualsAndHashCode
 public class User implements UserDetails {
     @Id
-    @SequenceGenerator(name = "user_seq", sequenceName = "user_squence", allocationSize = 20)
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", initialValue = 3, allocationSize = 20)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     @Column(name = "id", nullable = false)
     private Long id;
@@ -30,6 +30,7 @@ public class User implements UserDetails {
     private String edu;
     private String prof;
     private String password;
+    private String avatar;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
