@@ -29,7 +29,7 @@ public class UserService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public ResponseEntity<?> login(User user) {
+    public ResponseEntity<?> login(User user) { //вход
         Optional<User> userAttempt = userRepository.findByEmail(user.getEmail());
         if (userAttempt.isEmpty()) {
             return ResponseEntity
@@ -44,45 +44,44 @@ public class UserService {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        if (authentication.isAuthenticated()) {
-            return ResponseEntity.ok().body(userAttempt);
+        if (authentication.isAuthenticated()) { //если всё ок
+            return ResponseEntity.ok().body(userAttempt); //возвращаем пользователю
         } else {
-            return ResponseEntity.status(403).build();
+            return ResponseEntity.status(403).build(); //или ошибку аутентификации
         }
-
     }
 
-    public ResponseEntity<?> createUser(User user) {
+    public ResponseEntity<?> createUser(User user) { //регистрация пользователя
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             return ResponseEntity
                     .badRequest()
                     .body("Email уже зарегистрирован. Пользователь не создан.");
         }
 
-        user.setPassword(encoder.encode(user.getPassword()));
+        user.setPassword(encoder.encode(user.getPassword())); //шифруем пароль
         if (user.getRoles() == null) {
             user.setRoles(new HashSet<>());
         }
-        if (user.getEdu() == null || user.getEdu().isEmpty()) {
+        if (user.getEdu() == null || user.getEdu().isEmpty()) { //если не указано образование - это врач
             user.getRoles().add(roleRepository.findById(AppConstants.ROLE_USER_ID).get());
             user.setAvatar(AppConstants.USER_AVATAR_URL);
-        } else {
+        } else { //или пользователь
             user.getRoles().add(roleRepository.findById(AppConstants.ROLE_DOCTOR_ID).get());
             user.setAvatar(AppConstants.DOCTOR_AVATAR_URL);
         }
-        userRepository.save(user);
+        userRepository.save(user); //сохраняем в бд
         return ResponseEntity.ok().body("");
     }
 
-    public ResponseEntity<?> updateUser(User user) {
-        if (user.getAvatar() == null || user.getAvatar().isEmpty()) {
+    public ResponseEntity<?> updateUser(User user) { //обновляем пользователя
+        if (user.getAvatar() == null || user.getAvatar().isEmpty()) { //если аватар не указан
             if (Objects.equals(user.getRoles().stream().findFirst().get().getId(), AppConstants.ROLE_USER_ID)) {
-                user.setAvatar(AppConstants.USER_AVATAR_URL);
+                user.setAvatar(AppConstants.USER_AVATAR_URL); //выставляем стандратный в зависимости от роли
             } else {
                 user.setAvatar(AppConstants.DOCTOR_AVATAR_URL);
             }
         }
-        userRepository.save(user);
+        userRepository.save(user); //мерджим в бд
         return ResponseEntity.ok().body("");
     }
 
@@ -90,9 +89,9 @@ public class UserService {
         return userRepository.findById(id).get();
     }
 
-    public ResponseEntity<?> getDoctors(String fts) {
+    public ResponseEntity<?> getDoctors(String fts) { //врачи
         if (fts != null && !fts.isEmpty()) {
-            return ResponseEntity.ok().body(userRepository.findDoctors().stream()
+            return ResponseEntity.ok().body(userRepository.findDoctors().stream() //отфильтрованные по fts
                     .filter(e -> e.getName().contains(fts) ||
                             e.getEmail().contains(fts) ||
                             e.getAbout().contains(fts) ||
@@ -102,12 +101,12 @@ public class UserService {
                     )
                     .collect(Collectors.toList()));
         } else {
-            return ResponseEntity.ok().body(userRepository.findDoctors());
+            return ResponseEntity.ok().body(userRepository.findDoctors()); //или все
         }
     }
 
     public ResponseEntity<?> getUsers(String fts) {
-        if (fts != null && !fts.isEmpty()) {
+        if (fts != null && !fts.isEmpty()) { //отфильтрованные по fts
             return ResponseEntity.ok().body(userRepository.findUsers().stream()
                     .filter(e -> e.getName().contains(fts) ||
                             e.getEmail().contains(fts) ||
@@ -116,7 +115,7 @@ public class UserService {
                     )
                     .collect(Collectors.toList()));
         } else {
-            return ResponseEntity.ok().body(userRepository.findUsers());
+            return ResponseEntity.ok().body(userRepository.findUsers()); //или все
         }
     }
 }

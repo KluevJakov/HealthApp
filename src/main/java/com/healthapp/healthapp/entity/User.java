@@ -27,13 +27,15 @@ public class User implements UserDetails {
     private String phone;
     private String address;
     private String about;
-    private String edu;
-    private String prof;
+    private String edu; //образование
+    private String prof; //специализация
     private String password;
-    private String avatar;
+    private String avatar; //ссылка на аватарку
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+    //методы переопределенные из UserDetails
+    //для функционирования стандартной реализации авторизации
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

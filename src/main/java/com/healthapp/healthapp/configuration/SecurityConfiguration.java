@@ -15,8 +15,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -26,20 +24,20 @@ public class SecurityConfiguration {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
+        return authConfig.getAuthenticationManager(); //менеджер аутентификации
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); //устанавливаем шифрование пароля
     }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
+        authProvider.setUserDetailsService(userDetailsService); //используем поиск по email при входе
+        authProvider.setPasswordEncoder(passwordEncoder()); //используем шифрование пароля при входе
 
         return authProvider;
     }
@@ -48,9 +46,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests((authz) -> authz
-                    .requestMatchers("/").permitAll()
+                    .requestMatchers("/").permitAll() //разрешаем входы на определенные страницы
                     .requestMatchers("/api/users/login").permitAll()
-                    .anyRequest().authenticated()
+                    .requestMatchers("/api/users/register").permitAll()
+                    .anyRequest().authenticated() //на все остальные запрещаем без аутентификации
             )
 
                 .csrf(AbstractHttpConfigurer::disable)
@@ -63,23 +62,4 @@ public class SecurityConfiguration {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers("/**");
     }
-/*
-    @Bean
-    public WebMvcConfigurer corsConfigurer()
-    {
-        String[] allowDomains = new String[2];
-        allowDomains[0] = "http://localhost:4200";
-        allowDomains[1] = "http://localhost:8080";
-
-        System.out.println("CORS configuration....");
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE")
-                        .allowedOrigins(allowDomains);
-            }
-        };
-    }
-*/
 }

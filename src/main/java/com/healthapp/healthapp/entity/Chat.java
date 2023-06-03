@@ -17,7 +17,7 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToMany
-    private List<User> members;
+    private List<User> members; //участники
     @ManyToMany
-    private List<Message> messages;
+    private List<Message> messages; //сообщения
 }

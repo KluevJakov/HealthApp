@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MessageToChat {
+    //объект для понимания в какой чат какое сообщение отправлять
     private Message message;
     private Long chatId;
 }

@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class PersonalCouncilChat {
+    //объект для создания чата
     private Message message;
     private List<User> members;
 }

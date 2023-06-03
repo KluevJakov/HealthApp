@@ -16,8 +16,8 @@ public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String displayName;
-    private String name;
+    private String displayName; //отображаемое в UI название роли
+    private String name; //системное название роли
 
     @Override
     public String getAuthority() {
