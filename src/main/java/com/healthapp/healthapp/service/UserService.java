@@ -65,10 +65,11 @@ public class UserService {
         }
         if (user.getEdu() == null || user.getEdu().isEmpty()) {
             user.getRoles().add(roleRepository.findById(AppConstants.ROLE_USER_ID).get());
+            user.setAvatar(AppConstants.USER_AVATAR_URL);
         } else {
             user.getRoles().add(roleRepository.findById(AppConstants.ROLE_DOCTOR_ID).get());
+            user.setAvatar(AppConstants.DOCTOR_AVATAR_URL);
         }
-        user.setAvatar(AppConstants.USER_AVATAR_URL);
         userRepository.save(user);
         return ResponseEntity.ok().body("");
     }
